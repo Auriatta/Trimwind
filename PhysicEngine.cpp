@@ -12,9 +12,7 @@ PhysicEngine::PhysicEngine()
 PhysicEngine::~PhysicEngine()
 {
 	scrain = nullptr;
-	delete scrain;
 	ev = nullptr;
-	delete ev;
 	forceX.script = 0;
 	forceY.script = 0;
 	forceX.power = 0;

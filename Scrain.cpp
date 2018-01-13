@@ -35,13 +35,10 @@ Scrain::~Scrain()
 	detect = NULL;
 	m_speed = NULL;
 	CameraCoord = nullptr;
-	delete CameraCoord;
 	renderer = nullptr;
-	delete renderer;
 	phforceY = nullptr;
-	delete phforceY;
 	migniecie = nullptr;
-	delete migniecie;
+
 	DeleteScrain();
 }
 void Scrain::DeleteScrain()

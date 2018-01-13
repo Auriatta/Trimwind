@@ -48,11 +48,8 @@ ParticleSpawn::ParticleMenager::ParticleMenager()
 }
 ParticleSpawn::ParticleMenager::~ParticleMenager()
 {
-	//SDL_DestroyRenderer(renderer);
 	renderer = nullptr;
-	delete renderer;
 	cam = nullptr;
-	delete cam;
 	for (int i = 0; i < MAXPARTICLES; i++)
 		SDL_DestroyTexture(particle[i].texture);
 }

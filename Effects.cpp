@@ -11,9 +11,7 @@ Effects::Effects(SDL_Renderer* rend, SDL_Rect* scrainPoz, SDL_Rect* camr)
 Effects::~Effects()
 {
 	renderer = nullptr;
-	delete renderer;
 	cam = nullptr;
-	delete cam;
 	
 }
 

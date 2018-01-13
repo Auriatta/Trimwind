@@ -10,7 +10,7 @@ level::level()
 	bg_level = NULL;
 	lay_level = NULL;
 	
-	for (int i = 0; i < 10; i++)
+	for (int i = 0; i < 6; i++)
 	{
 		base_level[i] = NULL;
 	}
@@ -36,10 +36,10 @@ level::~level()
 	SDL_DestroyTexture(blay_level);
 	delete[] spawnPos;
 	spawnPos = nullptr;
-	spawnPosEnemyX = nullptr;
 	delete[] spawnPosEnemyX;
-	spawnPosEnemyY = nullptr;
+	spawnPosEnemyX = nullptr;
 	delete[] spawnPosEnemyY;
+	spawnPosEnemyY = nullptr;
 }
 
 void level::RenderBGEffects()
@@ -117,8 +117,8 @@ int level::LoadNewLevel(SDL_Window* window, SDL_Renderer* renderer, Objects* obj
 	if (savefile.is_open())
 	{
 		// pobierz ile jest colision data, spawnPos oraz Object
-		spawnPos = nullptr;
 		delete[] spawnPos;
+		spawnPos = nullptr;
 
 		long lnon = 0;
 		int c = 0;
@@ -129,7 +129,7 @@ int level::LoadNewLevel(SDL_Window* window, SDL_Renderer* renderer, Objects* obj
 		savefile >> c;
 		savefile >> c;
 		savefile >> c1;
-		spawnPos = new long[c1];
+		spawnPos = new long[c1+1];
 		memset(spawnPos, 0, c1*sizeof(int));
 		savefile >> c;
 		savefile >> c;

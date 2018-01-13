@@ -34,17 +34,17 @@ AI::AI()
 }
 AI::~AI()
 {
-	pathPoint = nullptr;
 	delete pathPoint;
-	scrain = nullptr;
-	delete scrain;
-	col = nullptr;
-	delete col;
+	pathPoint = nullptr;
 	delete[] pf_checkedIds;
 	pf_checkedIds = nullptr;
 	delete[] pf_wayIds;
 	pf_wayIds = nullptr;
-	
+	scrain = nullptr;
+	col = nullptr;
+	cam = nullptr;
+	renderer = nullptr;
+	camr = nullptr;
 }
 
 AI::grid::grid()

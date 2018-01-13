@@ -11,11 +11,8 @@ Events::Events(SDL_Event* eventt)
 Events::~Events()
 {
 	effects = nullptr;
-	delete effects;
 	Event = nullptr;
-	delete Event;
 	ishplane = nullptr;
-	delete ishplane;
 	e_except = -1;
 	l_count = 0;
 }

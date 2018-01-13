@@ -19,9 +19,7 @@ Colision::~Colision()
 	delete[] colisionHideLineData;
 	colisionHideLineData = nullptr;
 	cam = nullptr;
-	delete cam;
 	effects = nullptr;
-	delete effects;
 	Aline = NULL;
 	Bline = NULL;
 	Cline = NULL;

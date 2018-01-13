@@ -18,31 +18,9 @@ Interface::~Interface()
 	SDL_DestroyTexture(frameMask);
 	SDL_DestroyTexture(frame);
 	renderer = nullptr;
-	delete renderer;
-	if (flameNumber != NULL)
-	{
-		flameNumber = nullptr;
-		delete flameNumber;
-	}
-	if (maxFlameNumer != NULL)
-	{
-		maxFlameNumer = nullptr;
-		delete maxFlameNumer;
-	}
-	/*
-	window[0].~Window();
-	window[1].~Window();
-	for (int i = 0; i < 21; i++)
-		text[i].~Text();
-	for (int i = 0; i < 9; i++)
-		button[i].~Button();
-	checkbox[0].~CheckBox();
-	checkbox[1].~CheckBox();
-	slideBar[0].~SlideBar();
-	slideBar[1].~SlideBar();
-	for (int i = 0; i < 8; i++)
-		image[i].~Image();
-	*/
+	flameNumber = nullptr;
+	maxFlameNumer = nullptr;
+	
 }
 
 short Interface::loadMenuUi(short type)

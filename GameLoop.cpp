@@ -11,9 +11,15 @@ Game::Game()
 
 Game::~Game()
 {
+	delete irlicht;
+	delete objects;
+	delete cam;
+	delete scrain;
+	delete effects;
+	delete g_interface;
+
 	SDL_DestroyTexture(target_texture);
 	SDL_DestroyRenderer(RenderTarget);
-	RenderTarget = nullptr;
 }
 
 void Game::render()
@@ -133,8 +139,6 @@ int Game::startLoop(SDL_Window* window)
 	SDL_Rect rScrain;
 	SizeRect ws;
 	AI ai;
-	//st.setLevelName("tundra1");
-	//st.setActualLevel(0);
 	lvlid = st.getActualLevel();
 	alpha = 0;
 	SDL_GetWindowSize(window, &ws.w, &ws.h);
@@ -251,6 +255,7 @@ int Game::startLoop(SDL_Window* window)
 
 		cam->Set();
 		render();
+
 		if (alpha == 0 && endLevel == false && firstRun == false && migniecie == 0)
 		{
 			g_interface->loadMenuUi(2);

@@ -150,6 +150,8 @@ void SoundMenager::changeAmbient(short type)
 void SoundMenager::changeSoundPos(int channel, int objpoz)
 {
 	//nope
+
+	Mix_SetPanning(channel, leftVol, rightVol);
 }
 void SoundMenager::addSound(string filename, int channel, int reapets)
 {

@@ -28,21 +28,14 @@ Objects::~Objects()
 	object = nullptr;
 	delete[] objectWD;
 	objectWD = nullptr;
-	camRect = nullptr;
-	delete camRect;
-	renderer = nullptr;
-	delete renderer;
-	phEngine = nullptr;
-	delete phEngine;
 
+	camRect = nullptr;
+	renderer = nullptr;
+	phEngine = nullptr;
 	isDetectionSystemOff = nullptr;
-	delete isDetectionSystemOff;
 	ghostAchivement = nullptr;
-	delete ghostAchivement;
 	irlicht_poz = nullptr;
-	delete irlicht_poz;
 	isDetectionSetToMax = nullptr;
-	delete isDetectionSetToMax;
 }
 
 void Objects::StartObjectsSetting()
@@ -1765,7 +1758,9 @@ Objects::ObjectTypeRenderNA::~ObjectTypeRenderNA()
 {
 	SDL_DestroyTexture(texture);
 	texture = NULL;
-	delete storage->particlePoz;
+	for (int i = 0; i < i_storage;i++)
+		storage[i].particlePoz = nullptr;
+
 	delete[] storage;
 }
 void Objects::ObjectTypeRenderNA::loadTextures(int type, int id, SDL_Renderer* renderer)

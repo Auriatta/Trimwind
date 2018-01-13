@@ -60,9 +60,7 @@ void Irlicht::destroy()
 	SDL_DestroyTexture(tong_mid);
 	SDL_DestroyTexture(tong_top);
 	renderer = nullptr;
-	delete renderer;
 	cam = nullptr;
-	delete cam;
 	delete[] spawnDataX;
 	spawnDataX = nullptr;
 	delete[] spawnDataY;
