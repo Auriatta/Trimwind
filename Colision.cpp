@@ -251,13 +251,9 @@ void Colision::loadColision(string LevelName)
 	{
 		
 		delete[] colisionPozData;
-		colisionPozData = nullptr;
 		delete[] colisionPionData;
-		colisionPionData = nullptr;
 		delete[] colisionDeathLineData;
-		colisionDeathLineData = nullptr;
 		delete[] colisionHideLineData;
-		colisionHideLineData = nullptr;
 
 
 		int c = 0;
@@ -429,7 +425,7 @@ short Colision::isColidePlane(SDL_Rect data, int* correction, bool type, int x1,
 				if (isIntersection(p1, p2, p3, p4) == true)
 				{
 					side = 1;
-					if (x1 == 0 && y1 == 0)
+					if (x1 == 0 && y1 == 0 && correction != NULL)
 					*correction = p2.x - p3.x;
 					return side;
 				}
@@ -439,7 +435,7 @@ short Colision::isColidePlane(SDL_Rect data, int* correction, bool type, int x1,
 				{
 
 					side = 7;
-					if (x1 == 0 && y1 == 0)
+					if (x1 == 0 && y1 == 0 && correction != NULL)
 					*correction = p3.x - p2.x;
 					return side;
 				}
@@ -463,12 +459,15 @@ short Colision::isColidePlane(SDL_Rect data, int* correction, bool type, int x1,
 				{
 					if (x1 == 0 && y1 == 0 || x1 == -1 && y1 == -1)
 					{
-						if (p3.y < p4.y)
-							*correction = p2.y - p3.y;
-						else
-							*correction = p2.y - p4.y;
-						if (x1 == -1 && y1 == -1)
-							*correction = p2.y - p3.y;
+						if (correction != NULL)
+						{
+							if (p3.y < p4.y)
+								*correction = p2.y - p3.y;
+							else
+								*correction = p2.y - p4.y;
+							if (x1 == -1 && y1 == -1)
+								*correction = p2.y - p3.y;
+						}
 					}
 					//cout << p4.x << " " << p3.x << endl;
 					side = 5;

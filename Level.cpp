@@ -11,9 +11,7 @@ level::level()
 	lay_level = NULL;
 	
 	for (int i = 0; i < 6; i++)
-	{
 		base_level[i] = NULL;
-	}
 	blay_level = NULL;
 	bg_worldPos[0] = { 0 };
 	bg_worldPos[1] = { 0 };
@@ -29,7 +27,6 @@ level::~level()
 	{
 		if (base_level[i] != NULL)
 			SDL_DestroyTexture(base_level[i]);
-		base_level[i] = NULL;
 	}
 	SDL_DestroyTexture(bg_level);
 	SDL_DestroyTexture(lay_level);
@@ -118,7 +115,6 @@ int level::LoadNewLevel(SDL_Window* window, SDL_Renderer* renderer, Objects* obj
 	{
 		// pobierz ile jest colision data, spawnPos oraz Object
 		delete[] spawnPos;
-		spawnPos = nullptr;
 
 		long lnon = 0;
 		int c = 0;

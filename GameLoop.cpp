@@ -146,7 +146,6 @@ int Game::startLoop(SDL_Window* window)
 	if (RenderTarget == NULL)
 		return 0;
 	
-
 	{
 		WindowResolution res(RenderTarget, window);
 		if (st.getResolution(0).w != 900 && st.getIsFullScreen() == false);
@@ -160,7 +159,7 @@ int Game::startLoop(SDL_Window* window)
 	irlicht = new Irlicht(RenderTarget);
 	objects = new Objects(RenderTarget);
 	int bg_effect = lvl.LoadNewLevel(window, RenderTarget, objects);
-	objects->loadTextures();
+	
 	col.loadColision(st.getLevelName());
 	ai.loadGrid();
 	cam = new Camera(lvl.baseSize.w, lvl.baseSize.h, ws.w, ws.h, &rScrain);
@@ -170,6 +169,7 @@ int Game::startLoop(SDL_Window* window)
 
 	phisEngine.loadPointers(scrain, &gameEvents);
 	scrain->setStartLoc(cam->GetCameraCoord(), lvl.spawnPosPlayer);
+	cam->Set();
 	irlicht->GetPointers(cam);
 	irlicht->loadSpawnsPoints(lvl.spawnPosEnemyX, lvl.spawnPosEnemyY, lvl.n_enemySpawn);
 	irlicht->load();
@@ -177,15 +177,15 @@ int Game::startLoop(SDL_Window* window)
 	ai.setPoint(irlicht->GetPositionPointer()->x, irlicht->GetPositionPointer()->y);
 	rScrain = scrain->GetPosition();
 	scrain->GetSize(&rScrain);
-	cam->Set();
 	ai.getPointers(scrain, &col, cam, RenderTarget);
 	lvl.LoadBGEffects(RenderTarget, cam->GetNewCoord(), bg_effect);
+	irlicht->SetPointerToPoint(ai.GetPoint());
 	objects->loadPointers(scrain, &phisEngine, &gameEvents, window, cam->GetNewCoord(), &ai.isOffLevel, &ai.ghostAchivement, &ai.setFullDetection, &ai.point);
+	objects->loadTextures();
 	scrain->getPointers(cam->GetNewCoord(), &phisEngine.forceY.power);
 	effects = new Effects(RenderTarget, &rScrain, cam->GetNewCoord());
 	col.loadPointers(effects);
 	gameEvents.loadPointers(effects, &phisEngine.hidePlaneDetect);
-	irlicht->SetPointerToPoint(ai.GetPoint());
 	g_interface = new Interface(&objects->n_getflames, &objects->n_maxLevelFlames);
 	g_interface->getPointers(RenderTarget, &event, window);
 	g_interface->createGameUi();
@@ -230,8 +230,6 @@ int Game::startLoop(SDL_Window* window)
 		
 		if (done > 0)
 			break;
-		
-
 
 		rScrain = scrain->GetPosition();
 		scrain->GetSize(&rScrain);
@@ -260,6 +258,7 @@ int Game::startLoop(SDL_Window* window)
 		{
 			g_interface->loadMenuUi(2);
 			//firstRun = true;
+			SDL_QuitEvent(event);
 			if (st.getLevelName() == "none")
 			{
 				if (st.getAchivment(4) == false)
@@ -297,7 +296,7 @@ int Game::startLoop(SDL_Window* window)
 
 		c_FPS.end();
 	}
-	
+	SDL_QuitEvent(event);
 	if (done == 1)
 		return 0;
 	else

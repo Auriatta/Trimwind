@@ -36,6 +36,7 @@ Objects::~Objects()
 	ghostAchivement = nullptr;
 	irlicht_poz = nullptr;
 	isDetectionSetToMax = nullptr;
+
 }
 
 void Objects::StartObjectsSetting()
@@ -85,8 +86,8 @@ void Objects::loadTextures()
 					SDL_RWops *file1 = SDL_RWFromFile("graphics/bush2PassiveAnim.png", "rb");
 					r_bush.setTexture(LoadTextureRW(file, renderer), LoadTextureRW(file1, renderer), NULL);
 					r_bush.querryTexture(4, 1, 15, 1);
-					file = nullptr; file1 = nullptr;
-					delete file; delete file1;
+					SDL_RWclose(file);
+					SDL_RWclose(file1);
 					sm.loadSound("Bush2", 0);
 					sm.loadSound("Bush1", 0);
 					sm.loadSound("Bush3", 0);
@@ -102,8 +103,9 @@ void Objects::loadTextures()
 					r_flame.setTexture(LoadTextureRW(file, renderer), LoadTextureRW(file1, renderer), LoadTextureRW(file2, renderer));
 					r_flame.querryTexture(5, 1, 9, 1);
 					n_types[0] += 1;
-					file = nullptr; file1 = nullptr; file2 = nullptr;
-					delete file; delete file1; delete file2;
+					SDL_RWclose(file);
+					SDL_RWclose(file1);
+					SDL_RWclose(file2);
 					sm.loadSound("FlameActive", 0);
 					sm.loadSound("FlameSound", 0);
 				}
@@ -121,8 +123,8 @@ void Objects::loadTextures()
 					r_longGrass.activeDarkShading();
 					r_longGrass.setTexture(LoadTextureRW(file, renderer), LoadTextureRW(file1, renderer), NULL);
 					r_longGrass.querryTexture(5, 1, 6, 1);
-					file = nullptr; file1 = nullptr;
-					delete file; delete file1;
+					SDL_RWclose(file);
+					SDL_RWclose(file1);
 					sm.loadSound("Bush1", 0);
 					sm.loadSound("Bush2", 0);
 					sm.loadSound("Bush3", 0);
@@ -142,8 +144,9 @@ void Objects::loadTextures()
 					n_types[1] += 1;
 					sm.loadSound("RuneStone", 0);
 					sm.loadSound("RuneStoneUnlock", 0);
-					file = nullptr; file1 = nullptr; file2 = nullptr;
-					delete file; delete file1; delete file2;
+					SDL_RWclose(file);
+					SDL_RWclose(file1);
+					SDL_RWclose(file2);
 					
 				}
 				else
@@ -161,8 +164,8 @@ void Objects::loadTextures()
 					r_bird.setTexture(LoadTextureRW(file, renderer), LoadTextureRW(file1, renderer), NULL);
 					r_bird.querryTexture(10, 1, 10, 1);
 					n_types[2] += 1;
-					file = nullptr; file1 = nullptr;
-					delete file; delete file1;
+					SDL_RWclose(file);
+					SDL_RWclose(file1);
 					sm.loadSound("Bird", 0);
 				}
 				else
@@ -180,8 +183,7 @@ void Objects::loadTextures()
 					r_thunderwall.setTexture(NULL , LoadTextureRW(file, renderer), NULL);
 					r_thunderwall.querryTexture(0, 0, 8, 1);
 					n_types[3] += 1;
-					file = nullptr;
-					delete file;
+					SDL_RWclose(file);
 					r_thunderwall.animSpeed = 34;
 					sm.loadSound("Barrier", 0);
 				}
@@ -278,8 +280,7 @@ void Objects::loadTextures()
 					r_cyclon.setTexture(NULL, LoadTextureRW(file, renderer), NULL);
 					r_cyclon.querryTexture(0, 0, 7, 1);
 					n_typeWD[3] += 1;
-					file = nullptr;
-					delete file;
+					SDL_RWclose(file);
 					sm.loadSound("Cyclon", 0);
 					sm.loadSound("CyclonOpen", 0);
 					sm.loadSound("CyclonClose", 0);
@@ -336,22 +337,30 @@ void Objects::loadTextures()
 		{
 			if (n_typeWD[0] != 0 && n_typeWD[0] - 1 != 0)
 				r_levitMplatform.sortIds(0, n_typeWD[0]-1);
+
 			if (n_typeWD[1] != 0 && n_typeWD[1] - 1 != 0)
 				r_levitSplatform.sortIds(0, n_typeWD[1]-1);
+
 			if (n_typeWD[2] != 0 && n_typeWD[2] - 1 != 0)
 				r_fadedArea.sortIds(0, n_typeWD[2] - 1);
+
+			if (n_typeWD[3] != 0 && n_typeWD[3] - 1 != 0)
+				r_cyclon.SDsortIds(0, n_typeWD[3]-1);
+
 			if (n_typeWD[4] != 0 && n_typeWD[4] - 1 != 0)
 				r_magneticStone.sortIds(0, n_typeWD[4] - 1);
+
 			if (n_types[0] != 0 && n_types[0] - 1 != 0)
-				r_flame.SDsortIds(0, n_types[0]);
-			if (n_typeWD[3] != 0 && n_typeWD[3] - 1 != 0)
-				r_cyclon.SDsortIds(0, n_typeWD[3]);
+				r_flame.SDsortIds(0, n_types[0] - 1);
+
 			if (n_types[1] != 0 && n_types[1] - 1 != 0)
-				r_runeStone.SDsortIds(0, n_types[1]);
+				r_runeStone.SDsortIds(0, n_types[1] - 1);
+
 			if (n_types[2] != 0 && n_types[2] - 1 != 0)
-				r_bird.SDsortIds(0, n_types[2]);
+				r_bird.SDsortIds(0, n_types[2] - 1);
+
 			if (n_types[3] != 0 && n_types[3] - 1 != 0)
-				r_thunderwall.SDsortIds(0, n_types[3]);
+				r_thunderwall.SDsortIds(0, n_types[3] - 1);
 			StartObjectsSetting();
 			break;
 		}
@@ -731,201 +740,12 @@ void Objects::renderBackObject(SDL_Rect cam)
 	scrain_poz = scrain->GetPosition();
 	scrain_poz.x += SCRAINW / 2;
 	//r_cyclon.setIsFrameLoc(false);
-	//r_cyclon.setTActive(false);
+	//cyclon.setTActive(false);
 	r_runeStone.setIsFrameLoc(false);
 	r_runeStone.setTActive(false);
 	r_bird.setIsFrameLoc(false);
 	r_bird.setTActive(false);
 	ambientarea = false;
-
-	for (int i = 0; i < i_obj; i += 3)
-	{
-			//cout << "render " << i << endl;
-			switch (object[i])
-			{
-			case 7: // ptak
-			{
-				if (object[i + 1] - cam.x - 150 < scrain_poz.x - cam.x + (mwin_w - (mwin_w / 4)) && object[i + 1] - cam.x > (scrain_poz.x - cam.x) - (mwin_w - (mwin_w / 4)) &&
-					object[i + 2] - cam.y >(scrain_poz.y - cam.y) - 100 && object[i + 2] - cam.y < (scrain_poz.y - cam.y) + 100) // renderuj tylko obiekty w ramce okna
-				{
-					if (r_bird.data[r_bird.SDSearchId(i)].var1 != -1)
-					{
-						setting.w = 39;
-						setting.h = 26;
-						setting.x = object[i + 1] - cam.x;
-						setting.y = object[i + 2] - cam.y;
-						
-						if (scrain_poz.x - cam.x > (setting.x - 200) && scrain_poz.x - cam.x < (setting.x + 200)
-							|| r_bird.data[r_bird.SDSearchId(i)].var1 != NULL)
-						{
-							if (r_bird.getTimeTActive() == false)
-							{
-								if (r_bird.data[r_bird.SDSearchId(i)].var1 == NULL)
-								{
-									r_bird.animSpeed = 8;
-									r_bird.data[r_bird.SDSearchId(i)].var1 = object[i + 1];
-									r_bird.data[r_bird.SDSearchId(i)].offsetY = object[i + 2];
-									sm.addSound("Bird", sm.getFreeChannel(), 0);
-								}
-								r_bird.setTActive(true);
-							}
-						}
-						else
-						{
-							r_bird.renderPassive(setting, renderer, -1, -1);
-						}
-
-						if (r_bird.data[r_bird.SDSearchId(i)].var1 != NULL)
-						{
-							r_bird.data[r_bird.SDSearchId(i)].var1 -= 3;
-							r_bird.data[r_bird.SDSearchId(i)].offsetY -= 2;
-							setting.x = r_bird.data[r_bird.SDSearchId(i)].var1 - cam.x;
-							setting.y = r_bird.data[r_bird.SDSearchId(i)].offsetY - cam.y;
-							if (setting.x < scrain_poz.x - cam.x + (mwin_w - (mwin_w / 4)) && setting.x >(scrain_poz.x - cam.x) - (mwin_w - (mwin_w / 4))
-								&& setting.y + setting.h > -(setting.h))
-							{
-								r_bird.renderActive(setting, renderer, -1, -1);
-							}
-							else
-							{
-								r_bird.animSpeed = 74;
-								r_bird.data[r_bird.SDSearchId(i)].offsetY = -1;
-								r_bird.data[r_bird.SDSearchId(i)].var1 = -1;
-							}
-						}
-						r_bird.setIsFrameLoc(true);
-					}
-				}
-				break;
-			}
-			case 4:
-			{
-				if (object[i + 1] - cam.x - 150 < scrain_poz.x - cam.x + (mwin_w - (mwin_w / 4)) && object[i + 1] - cam.x > (scrain_poz.x - cam.x) - (mwin_w - (mwin_w / 4))) // renderuj tylko obiekty w ramce okna
-				{
-					if (r_runeStone.data[r_runeStone.SDSearchId(i)].soundTimer + RUNESTONE_LENGHT < SDL_GetTicks() && r_runeStone.data[r_runeStone.SDSearchId(i)].soundTimer != 0)
-					{
-						r_runeStone.data[r_runeStone.SDSearchId(i)].c_sound = -1;
-						r_runeStone.data[r_runeStone.SDSearchId(i)].endTimer = 0;
-					}
-					if (object[i + 2] - cam.y < scrain_poz.y - cam.y + (mwin_h - (mwin_h / 2)) && object[i + 2] - cam.y >scrain_poz.y - cam.y - (mwin_h - (mwin_h / 2))) // renderuj tylko obiekty w ramce okna
-					{
-						setting.w = 104;
-						setting.h = 140;
-						setting.x = object[i + 1] - cam.x;
-						setting.y = object[i + 2] - cam.y;
-						setting.x -= setting.w / 2;
-						setting.y -= setting.h / 2;
-						setting.y += r_runeStone.data[r_runeStone.SDSearchId(i)].offsetY;
-						
-						if (scrain_poz.x - cam.x > (setting.x - 70) && scrain_poz.x - cam.x < (setting.x + 70) &&
-							scrain_poz.y - cam.y < (setting.y + 110) && scrain_poz.y - cam.y >(setting.y - (setting.h / 2)))
-						{
-							if (r_runeStone.SDisHide(r_runeStone.SDSearchId(i)) == false || scrain->getSpawn().x != object[i + 1] || scrain->getSpawn().y != object[i + 2])
-							{
-								SettingsControl st;
-								if (st.getDifficulty() != 3 || scrain->isCheckPointSet() == false)
-								{
-									if (r_runeStone.getTimeTActive() == false)
-									{
-										RuneStoneEffect(object[i + 1], object[i + 2]);
-									}
-									if (r_runeStone.getTimeTActive() == false && r_runeStone.SDisTimerRun(r_runeStone.SDSearchId(i)) == false)
-									{
-										r_runeStone.setTActive(true);
-										r_runeStone.SDendTimer(true, r_runeStone.SDSearchId(i));
-										r_runeStone.SDSetHide(true, r_runeStone.SDSearchId(i));
-										sm.addSound("RuneStoneUnlock", UNLOCKRUNECHANNEL, 0);
-									}
-								}
-							}
-						}
-
-						if (r_runeStone.SDisHide(r_runeStone.SDSearchId(i)) == true && r_runeStone.SDisTimerRun(r_runeStone.SDSearchId(i)) == false && r_runeStone.getTimeTActive() == false)
-						{
-							if (r_runeStone.animSpeed != 104)
-							{
-								r_runeStone.rendSpeed = 0;
-								r_runeStone.animSpeed = 104;
-							}
-							if (r_runeStone.passiveAnimLock != false)
-								r_runeStone.passiveAnimLock = false;
-							r_runeStone.renderAlternative(setting, renderer, r_runeStone.SDSearchId(i), 4);
-						}
-						else
-							if (r_runeStone.SDisTimerRun(r_runeStone.SDSearchId(i)) == false && r_runeStone.SDisHide(r_runeStone.SDSearchId(i)) == false)
-							{
-								if (r_runeStone.animSpeed != 74)
-								{
-									r_runeStone.rendSpeed = 0;
-									r_runeStone.animSpeed = 74;
-								}
-								if (r_runeStone.passiveAnimLock != true)
-									r_runeStone.passiveAnimLock = true;
-								r_runeStone.renderPassive(setting, renderer, r_runeStone.SDSearchId(i), 4);
-							}
-							else
-								if (r_runeStone.getTimeTActive() == true)
-						{
-
-							if (r_runeStone.animSpeed != 22)
-							{
-								r_runeStone.rendSpeed = 0;
-								r_runeStone.animSpeed = 22;
-							}
-
-							if (1 == r_runeStone.rendSpeed)
-							{
-								if (r_runeStone.data[r_runeStone.SDSearchId(i)].c_sound == -1 && r_runeStone.data[r_runeStone.SDSearchId(i)].offsetY > 10 ||
-									r_runeStone.data[r_runeStone.SDSearchId(i)].c_sound == -1 && r_runeStone.data[r_runeStone.SDSearchId(i)].offsetY < -10)
-								{
-									r_runeStone.data[r_runeStone.SDSearchId(i)].c_sound = sm.getFreeChannel();
-									sm.addSound("RuneStone", r_runeStone.data[r_runeStone.SDSearchId(i)].c_sound, 0);
-									r_runeStone.data[r_runeStone.SDSearchId(i)].soundTimer = SDL_GetTicks();
-									particleSpawnMenager.spawn(object[i + 1] - setting.w / 4, object[i + 2] + 26, 0, 0, 2000, 60, 5, 1, renderer, camRect);
-									particleSpawnMenager.spawn(object[i + 1], object[i + 2]- setting.h/5, 0, 0, 200, 10, 5, 1, renderer, camRect);
-								}
-								if (r_runeStone.data[r_runeStone.SDSearchId(i)].var1 < 0)
-									r_runeStone.data[r_runeStone.SDSearchId(i)].var1 += 1;
-								else
-									if (r_runeStone.data[r_runeStone.SDSearchId(i)].var1 > 0)
-										r_runeStone.data[r_runeStone.SDSearchId(i)].var1 -= 1;
-								if (r_runeStone.data[r_runeStone.SDSearchId(i)].offsetY != 0)
-									r_runeStone.data[r_runeStone.SDSearchId(i)].offsetY -= 1;
-							}
-
-
-							if (r_runeStone.passiveAnimLock != false)
-								r_runeStone.passiveAnimLock = false;
-
-							if (r_runeStone.data[r_runeStone.SDSearchId(i)].c_sound != -1)
-							{
-								sm.changeSoundPos(r_runeStone.data[r_runeStone.SDSearchId(i)].c_sound, setting.x);
-							}
-							r_runeStone.renderActive(setting, renderer, r_runeStone.SDSearchId(i), 4);
-
-
-						}
-						
-						r_runeStone.setIsFrameLoc(true);
-					}
-				}
-				else
-				{
-					if (r_runeStone.data[r_runeStone.SDSearchId(i)].c_sound != -1)
-					{
-						sm.stopSound(r_runeStone.data[r_runeStone.SDSearchId(i)].c_sound);
-						r_runeStone.data[r_runeStone.SDSearchId(i)].c_sound = -1;
-					}
-				}
-				break;
-			}
-
-			default:
-				break;
-			}
-		
-		
-	}
 	
 	for (int i = 0; i < i_objWD; i += 5)
 	{
@@ -1230,6 +1050,192 @@ void Objects::renderBackObject(SDL_Rect cam)
 			
 	}
 	
+	for (int i = 0; i < i_obj; i += 3)
+	{
+		switch (object[i])
+		{
+		case 7: // ptak
+		{
+			if (object[i + 1] - cam.x - 150 < scrain_poz.x - cam.x + (mwin_w - (mwin_w / 4)) && object[i + 1] - cam.x > (scrain_poz.x - cam.x) - (mwin_w - (mwin_w / 4)) &&
+				object[i + 2] - cam.y >(scrain_poz.y - cam.y) - 100 && object[i + 2] - cam.y < (scrain_poz.y - cam.y) + 100) // renderuj tylko obiekty w ramce okna
+			{
+				if (r_bird.data[r_bird.SDSearchId(i)].var1 != -1)
+				{
+					setting.w = 39;
+					setting.h = 26;
+					setting.x = object[i + 1] - cam.x;
+					setting.y = object[i + 2] - cam.y;
+
+					if (scrain_poz.x - cam.x >(setting.x - 200) && scrain_poz.x - cam.x < (setting.x + 200)
+						|| r_bird.data[r_bird.SDSearchId(i)].var1 != NULL)
+					{
+						if (r_bird.getTimeTActive() == false)
+						{
+							if (r_bird.data[r_bird.SDSearchId(i)].var1 == NULL)
+							{
+								r_bird.animSpeed = 8;
+								r_bird.data[r_bird.SDSearchId(i)].var1 = object[i + 1];
+								r_bird.data[r_bird.SDSearchId(i)].offsetY = object[i + 2];
+								sm.addSound("Bird", sm.getFreeChannel(), 0);
+							}
+							r_bird.setTActive(true);
+						}
+					}
+					else
+					{
+						r_bird.renderPassive(setting, renderer, -1, -1);
+					}
+
+					if (r_bird.data[r_bird.SDSearchId(i)].var1 != NULL)
+					{
+						r_bird.data[r_bird.SDSearchId(i)].var1 -= 3;
+						r_bird.data[r_bird.SDSearchId(i)].offsetY -= 2;
+						setting.x = r_bird.data[r_bird.SDSearchId(i)].var1 - cam.x;
+						setting.y = r_bird.data[r_bird.SDSearchId(i)].offsetY - cam.y;
+						if (setting.x < scrain_poz.x - cam.x + (mwin_w - (mwin_w / 4)) && setting.x >(scrain_poz.x - cam.x) - (mwin_w - (mwin_w / 4))
+							&& setting.y + setting.h > -(setting.h))
+						{
+							r_bird.renderActive(setting, renderer, -1, -1);
+						}
+						else
+						{
+							r_bird.animSpeed = 74;
+							r_bird.data[r_bird.SDSearchId(i)].offsetY = -1;
+							r_bird.data[r_bird.SDSearchId(i)].var1 = -1;
+						}
+					}
+					r_bird.setIsFrameLoc(true);
+				}
+			}
+
+			break;
+		}
+		case 4:
+		{
+			if (object[i + 1] - cam.x - 150 < scrain_poz.x - cam.x + (mwin_w - (mwin_w / 4)) && object[i + 1] - cam.x > (scrain_poz.x - cam.x) - (mwin_w - (mwin_w / 4))) // renderuj tylko obiekty w ramce okna
+			{
+				if (r_runeStone.data[r_runeStone.SDSearchId(i)].soundTimer + RUNESTONE_LENGHT < SDL_GetTicks() && r_runeStone.data[r_runeStone.SDSearchId(i)].soundTimer != 0)
+				{
+					r_runeStone.data[r_runeStone.SDSearchId(i)].c_sound = -1;
+					r_runeStone.data[r_runeStone.SDSearchId(i)].endTimer = 0;
+				}
+				if (object[i + 2] - cam.y < scrain_poz.y - cam.y + (mwin_h - (mwin_h / 2)) && object[i + 2] - cam.y >scrain_poz.y - cam.y - (mwin_h - (mwin_h / 2))) // renderuj tylko obiekty w ramce okna
+				{
+					setting.w = 104;
+					setting.h = 140;
+					setting.x = object[i + 1] - cam.x;
+					setting.y = object[i + 2] - cam.y;
+					setting.x -= setting.w / 2;
+					setting.y -= setting.h / 2;
+					setting.y += r_runeStone.data[r_runeStone.SDSearchId(i)].offsetY;
+
+					if (scrain_poz.x - cam.x > (setting.x - 70) && scrain_poz.x - cam.x < (setting.x + 70) &&
+						scrain_poz.y - cam.y < (setting.y + 110) && scrain_poz.y - cam.y >(setting.y - (setting.h / 2)))
+					{
+						if (r_runeStone.SDisHide(r_runeStone.SDSearchId(i)) == false || scrain->getSpawn().x != object[i + 1] || scrain->getSpawn().y != object[i + 2])
+						{
+							SettingsControl st;
+							if (st.getDifficulty() != 3 || scrain->isCheckPointSet() == false)
+							{
+								if (r_runeStone.getTimeTActive() == false)
+								{
+									RuneStoneEffect(object[i + 1], object[i + 2]);
+								}
+								if (r_runeStone.getTimeTActive() == false && r_runeStone.SDisTimerRun(r_runeStone.SDSearchId(i)) == false)
+								{
+									r_runeStone.setTActive(true);
+									r_runeStone.SDendTimer(true, r_runeStone.SDSearchId(i));
+									r_runeStone.SDSetHide(true, r_runeStone.SDSearchId(i));
+									sm.addSound("RuneStoneUnlock", UNLOCKRUNECHANNEL, 0);
+								}
+							}
+						}
+					}
+
+					if (r_runeStone.SDisHide(r_runeStone.SDSearchId(i)) == true && r_runeStone.SDisTimerRun(r_runeStone.SDSearchId(i)) == false && r_runeStone.getTimeTActive() == false)
+					{
+						if (r_runeStone.animSpeed != 104)
+						{
+							r_runeStone.rendSpeed = 0;
+							r_runeStone.animSpeed = 104;
+						}
+						if (r_runeStone.passiveAnimLock != false)
+							r_runeStone.passiveAnimLock = false;
+						r_runeStone.renderAlternative(setting, renderer, r_runeStone.SDSearchId(i), 4);
+					}
+					else
+						if (r_runeStone.SDisTimerRun(r_runeStone.SDSearchId(i)) == false && r_runeStone.SDisHide(r_runeStone.SDSearchId(i)) == false)
+						{
+							if (r_runeStone.animSpeed != 74)
+							{
+								r_runeStone.rendSpeed = 0;
+								r_runeStone.animSpeed = 74;
+							}
+							if (r_runeStone.passiveAnimLock != true)
+								r_runeStone.passiveAnimLock = true;
+							r_runeStone.renderPassive(setting, renderer, r_runeStone.SDSearchId(i), 4);
+						}
+						else
+							if (r_runeStone.getTimeTActive() == true)
+							{
+
+								if (r_runeStone.animSpeed != 22)
+								{
+									r_runeStone.rendSpeed = 0;
+									r_runeStone.animSpeed = 22;
+								}
+
+								if (1 == r_runeStone.rendSpeed)
+								{
+									if (r_runeStone.data[r_runeStone.SDSearchId(i)].c_sound == -1 && r_runeStone.data[r_runeStone.SDSearchId(i)].offsetY > 10 ||
+										r_runeStone.data[r_runeStone.SDSearchId(i)].c_sound == -1 && r_runeStone.data[r_runeStone.SDSearchId(i)].offsetY < -10)
+									{
+										r_runeStone.data[r_runeStone.SDSearchId(i)].c_sound = sm.getFreeChannel();
+										sm.addSound("RuneStone", r_runeStone.data[r_runeStone.SDSearchId(i)].c_sound, 0);
+										r_runeStone.data[r_runeStone.SDSearchId(i)].soundTimer = SDL_GetTicks();
+										particleSpawnMenager.spawn(object[i + 1] - setting.w / 4, object[i + 2] + 26, 0, 0, 2000, 60, 5, 1, renderer, camRect);
+										particleSpawnMenager.spawn(object[i + 1], object[i + 2] - setting.h / 5, 0, 0, 200, 10, 5, 1, renderer, camRect);
+									}
+									if (r_runeStone.data[r_runeStone.SDSearchId(i)].var1 < 0)
+										r_runeStone.data[r_runeStone.SDSearchId(i)].var1 += 1;
+									else
+										if (r_runeStone.data[r_runeStone.SDSearchId(i)].var1 > 0)
+											r_runeStone.data[r_runeStone.SDSearchId(i)].var1 -= 1;
+									if (r_runeStone.data[r_runeStone.SDSearchId(i)].offsetY != 0)
+										r_runeStone.data[r_runeStone.SDSearchId(i)].offsetY -= 1;
+								}
+
+								if (r_runeStone.passiveAnimLock != false)
+									r_runeStone.passiveAnimLock = false;
+
+								if (r_runeStone.data[r_runeStone.SDSearchId(i)].c_sound != -1)
+								{
+									sm.changeSoundPos(r_runeStone.data[r_runeStone.SDSearchId(i)].c_sound, setting.x);
+								}
+								r_runeStone.renderActive(setting, renderer, r_runeStone.SDSearchId(i), 4);
+							}
+
+					r_runeStone.setIsFrameLoc(true);
+				}
+			}
+			else
+			{
+				if (r_runeStone.data[r_runeStone.SDSearchId(i)].c_sound != -1)
+				{
+					sm.stopSound(r_runeStone.data[r_runeStone.SDSearchId(i)].c_sound);
+					r_runeStone.data[r_runeStone.SDSearchId(i)].c_sound = -1;
+				}
+			}
+			break;
+
+		}
+
+		default:
+			break;
+		}
+	}
+
+
 	if (sm.getActualAmbient() == 1 && ambientarea == 0)
 		sm.changeAmbient(0);
 
@@ -1456,6 +1462,7 @@ Objects::ObjectTypeRender::~ObjectTypeRender()
 {
 	delete[] data;
 	data = nullptr;
+	SDSize = 0;
 	SDL_DestroyTexture(textureActive);
 	SDL_DestroyTexture(textureAlt);
 	SDL_DestroyTexture(texturePassive);
@@ -1532,7 +1539,6 @@ void Objects::ObjectTypeRender::renderAlternative(SDL_Rect setting, SDL_Renderer
 }
 void Objects::ObjectTypeRender::runAnim()
 {
-	
 	if (frameLoc == true || t_TActive == true) // jesli jest jakis obiekt ktory znajduje sie w ramce okna, to oblicz jego klatke
 	{
 		rendSpeed += 1;
@@ -1621,10 +1627,13 @@ bool Objects::ObjectTypeRender::SDisTimerRun(int id)
 }
 void Objects::ObjectTypeRender::SDcreate(int number)
 {
-	delete[] data;
-	data = nullptr;
-	data = new specific[number + 1];
-	SDSize = number + 1;
+	if (number != 1)
+	{
+		SDSize = NULL;
+		delete[] data;
+		data = new specific[number];
+	}
+	SDSize = number;
 	for (int i = 0; i < SDSize; i++)
 	{
 		data[i].id = 0;
@@ -1737,8 +1746,9 @@ void Objects::ObjectTypeRender::SDsetId(int index)
 }
 void Objects::ObjectTypeRender::SDSetHide(bool v, int id)
 {
+	if (id != -1)
 	data[id].isHide = v;
-};
+}
 bool Objects::ObjectTypeRender::SDisHide(int id)
 {
 	return data[id].isHide;
@@ -1751,17 +1761,18 @@ void Objects::ObjectTypeRender::SDendTimer(bool v, int id)
 
 Objects::ObjectTypeRenderNA::ObjectTypeRenderNA()
 {
-	i_storage = NULL;
+	i_storage = 0;
 	texture = NULL;
 }
 Objects::ObjectTypeRenderNA::~ObjectTypeRenderNA()
 {
 	SDL_DestroyTexture(texture);
 	texture = NULL;
-	for (int i = 0; i < i_storage;i++)
+	for (int i = 0; i < i_storage; i++)
 		storage[i].particlePoz = nullptr;
 
 	delete[] storage;
+	i_storage = 0;
 }
 void Objects::ObjectTypeRenderNA::loadTextures(int type, int id, SDL_Renderer* renderer)
 {
@@ -1862,24 +1873,34 @@ void Objects::ObjectTypeRenderNA::createDataBase(int idNumber)
 }
 SDL_Rect Objects::ObjectTypeRenderNA::getSetting(int id)
 {
+	if (id == -1)
+		return {0,0,0,0};
 	return storage[id].setting;
 }
 bool Objects::ObjectTypeRenderNA::isActive(int id)
 {
+	if (id == -1)
+		return 0;
 	return storage[id].isactive;
 }
 bool Objects::ObjectTypeRenderNA::isAlternative(int id)
 {
+	if (id == -1)
+		return 0;
 	return storage[id].alternative;
 }
 void Objects::ObjectTypeRenderNA::setIsActive(int id)
 {
+	if (id != -1)
 	storage[id].isactive = true;
 }
 void Objects::ObjectTypeRenderNA::setIsAlternative(int id)
 {
-	storage[id].isactive = false;
-	storage[id].alternative = true;
+	if (id != -1)
+	{
+		storage[id].isactive = false;
+		storage[id].alternative = true;
+	}
 }
 int Objects::ObjectTypeRenderNA::setIdToStorage(int index)
 {

@@ -632,6 +632,7 @@ void Interface::LoadGameStats()
 					output = "You'v got new achievement!";
 					text[7].add(GetProcentPoz(30, 0), GetProcentPoz(70, 1), 240, 25, 84, output.c_str(), renderer);
 				}
+				sc.setStat(5, false);
 			}
 		}
 		#pragma endregion
@@ -2060,9 +2061,9 @@ void Interface::LoadAchievmentsMenu()
 			else
 				text[8].add(GetProcentPoz(54, 0), GetProcentPoz(45.4, 1), 140, 45, 84, "Fiery Heart", renderer);
 			if (st.getLanguageId() == 2)
-				text[9].add(GetProcentPoz(54.4, 0), GetProcentPoz(48.6, 1), 420, 40, 84, "Znajdz tuzin plomyków w opowiesci", renderer);
+				text[9].add(GetProcentPoz(54.4, 0), GetProcentPoz(48.6, 1), 440, 40, 84, "Znajdz dwa tuziny plomyków w opowiesci", renderer);
 			else
-				text[9].add(GetProcentPoz(54.4, 0), GetProcentPoz(48.6, 1), 365, 40, 84, "Find dozen flames in story mode", renderer);
+				text[9].add(GetProcentPoz(54.4, 0), GetProcentPoz(48.6, 1), 375, 40, 84, "Find two dozen flames in story mode", renderer);
 
 			if (st.getLanguageId() == 2)
 				text[10].add(GetProcentPoz(54, 0), GetProcentPoz(53.7, 1), 250, 45, 84, "Czy to juz Koniec?", renderer);
