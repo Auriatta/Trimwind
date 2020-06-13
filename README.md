@@ -1,7 +1,7 @@
 # Trimwind
 First game with engine prototype
 
-Samples of my code of game prototype with simple engine created in SDL 2.0.5.
+Samples of my code from game prototype with simple engine created in SDL 2.0.5.
 
 
 Gameplay
