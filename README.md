@@ -1,10 +1,16 @@
 # Trimwind
-My platform Game
+First game with engine prototype
 
-Game was wroted whole by me in SDL 2.0.5.
-There's not everything uploaded, but enough to tell you, if my skills are satisfying.
+Samples of my code of game prototype with simple engine created in SDL 2.0.5.
 
-Exe you can download at:
-https://mentaris.itch.io/trimwind
 
-Im most proud of AI based on *ASearch, simple particle system, and audio menager with direct sound.
+Gameplay
+https://www.youtube.com/watch?v=OnpoYzQyhVY&t=62s
+
+Implemented:
+- A* Search path algorithm
+- Waypoints patrols
+- AI behaviors
+- Programmed skeletal movements
+- Dynamic and direct audio
+- Simple Level Editor
