@@ -1,8 +1,8 @@
-# Trimwind
+# Trimwind 2015
 First game with engine prototype
 
 Samples of my code from game prototype with simple engine created in SDL 2.0.5.
-
+Yea, I was 16teen so..
 
 Gameplay
 https://www.youtube.com/watch?v=OnpoYzQyhVY&t=62s
