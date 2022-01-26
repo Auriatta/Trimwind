@@ -1,5 +1,5 @@
 # Trimwind 2015
-First game with engine prototype I have wrote, when I was 17/18 years old
+First game with engine prototype I had wrote it, when I was 17/18 years old
 
 Samples of my code from game prototype with simple engine created in SDL 2.0.5.
 
@@ -15,5 +15,3 @@ Implemented:
 - Dynamic and direct audio
 - Simple Level Editor
 
-
-@Code style is very old
